@@ -9,6 +9,9 @@ namespace TicSharpToe
             this.playerOne = p1;
             this.playerTwo = p2;
             Console.WriteLine("Game initialized");
+            Console.WriteLine("Player 1 symbol : " + this.playerOne.Symbol.ToString());
+            Console.WriteLine("Player 2 symbol : " + this.playerTwo.Symbol.ToString());
+            
         }
 
         public void Play()
