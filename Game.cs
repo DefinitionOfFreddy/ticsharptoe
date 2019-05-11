@@ -29,6 +29,7 @@ namespace TicSharpToe
             Console.WriteLine("Starting game");
             Console.WriteLine("Board Status :");
             Console.WriteLine(this.BoardToString());
+            this.getUserInput();
             Console.WriteLine("Ending game");
         }
 
@@ -46,6 +47,43 @@ namespace TicSharpToe
                             " | " + board[Position.SOUTH].GetDescription() +
                             " | " + board[Position.SOUTHEST].GetDescription() +
                             " |";
+        }
+
+
+
+        private List<Position> getPossibleInput()
+        {
+            List<Position> list = new List<Position>();
+            foreach (var item in this.board)
+            {
+                if (item.Value == Symbol.None)
+                {
+                    list.Add(item.Key);
+                }
+            }
+
+            return list;
+        }
+        
+        private string getPossibleInputString(List<Position> list)
+        {
+            string possibleValues = "|";
+            foreach (var position in list)
+            {
+                possibleValues += " " + position.GetDescription() + " |";
+            }
+
+            return possibleValues;
+        }
+        
+        private void getUserInput()
+        {
+            string userInput;
+            Console.WriteLine("Gimme your input !");
+            Console.WriteLine("Possibles values are :");
+            Console.WriteLine(this.getPossibleInputString(this.getPossibleInput()));
+            userInput = Console.ReadLine();
+
         }
         
         private Player playerOne;
