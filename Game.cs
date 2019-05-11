@@ -72,17 +72,31 @@ namespace TicSharpToe
             {
                 possibleValues += " " + position.GetDescription() + " |";
             }
-
             return possibleValues;
         }
+
         
         private void getUserInput()
         {
             string userInput;
-            Console.WriteLine("Gimme your input !");
-            Console.WriteLine("Possibles values are :");
-            Console.WriteLine(this.getPossibleInputString(this.getPossibleInput()));
-            userInput = Console.ReadLine();
+            List<Position> possibleInput = this.getPossibleInput();
+
+            var statusInput = StatusCode.InputNotGiven;
+            while (statusInput == StatusCode.InputNotGiven)
+            {
+                Console.WriteLine("Gimme your input !");
+                Console.WriteLine("Possibles values are :");
+                Console.WriteLine(this.getPossibleInputString(possibleInput));
+                userInput = Console.ReadLine();
+                Position position = possibleInput.Find(x => x.GetDescription().Equals(userInput));;
+
+                if (position != Position.NONE)
+                {
+                    statusInput = StatusCode.InputValid;
+                    Console.WriteLine(position.GetDescription());
+                }
+
+            }
 
         }
         

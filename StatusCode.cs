@@ -2,7 +2,8 @@ namespace TicSharpToe
 {
     public enum StatusCode
     {
-        BadInput,
+        InputNotGiven,
+        InputValid,
         GameFinished
     }
 }

@@ -4,6 +4,7 @@ namespace TicSharpToe
 {
     public enum Position
     {
+        NONE,
         [Description("NW")]
         NORTHWEST,
         [Description("N")]
