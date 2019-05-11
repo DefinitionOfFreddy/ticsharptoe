@@ -4,6 +4,10 @@ namespace TicSharpToe
     {
         InputNotGiven,
         InputValid,
-        GameFinished
+        GameNotFinished,
+        GameVictory,
+        GameDraw,
+        PlayerOneTurn,
+        PlayerTwoTurn,
     }
 }

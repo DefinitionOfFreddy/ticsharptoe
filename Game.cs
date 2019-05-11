@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 
 namespace TicSharpToe
 {
@@ -28,11 +29,40 @@ namespace TicSharpToe
         {
             Console.WriteLine("Starting game");
             Console.WriteLine("Board Status :");
-            Console.WriteLine(this.BoardToString());
-            this.getUserInput();
+            
+            StatusCode gameStatus = StatusCode.GameNotFinished;
+            StatusCode playerTurn = StatusCode.PlayerOneTurn;
+            StatusCode nextPlayerTurn = StatusCode.PlayerTwoTurn;
+
+            while (gameStatus == StatusCode.GameNotFinished)
+            {
+                Player currentPlayer = null;
+                if (playerTurn == StatusCode.PlayerOneTurn)
+                {
+                    currentPlayer = this.playerOne;
+                }
+                else
+                {
+                    currentPlayer = this.playerTwo;
+                }
+                Console.WriteLine(this.BoardToString());
+                this.newTurn(currentPlayer);
+
+                StatusCode temp = playerTurn;
+                playerTurn = nextPlayerTurn;
+                nextPlayerTurn = temp;
+            }
+            
             Console.WriteLine("Ending game");
         }
 
+        private void newTurn(Player currentPlayer)
+        {
+            Console.WriteLine("Player : " + currentPlayer.Symbol.GetDescription());
+            Position position = this.getUserInput();
+            this.board[position] = currentPlayer.Symbol;
+        }
+        
         private string BoardToString()
         {
             return "| "  + board[Position.NORTHWEST].GetDescription() +
@@ -48,8 +78,6 @@ namespace TicSharpToe
                             " | " + board[Position.SOUTHEST].GetDescription() +
                             " |";
         }
-
-
 
         private List<Position> getPossibleInput()
         {
@@ -76,28 +104,23 @@ namespace TicSharpToe
         }
 
         
-        private void getUserInput()
+        private Position getUserInput()
         {
             string userInput;
             List<Position> possibleInput = this.getPossibleInput();
-
+            Position position = Position.NONE;
+            
             var statusInput = StatusCode.InputNotGiven;
-            while (statusInput == StatusCode.InputNotGiven)
+            while (position == Position.NONE)
             {
                 Console.WriteLine("Gimme your input !");
                 Console.WriteLine("Possibles values are :");
                 Console.WriteLine(this.getPossibleInputString(possibleInput));
                 userInput = Console.ReadLine();
-                Position position = possibleInput.Find(x => x.GetDescription().Equals(userInput));;
-
-                if (position != Position.NONE)
-                {
-                    statusInput = StatusCode.InputValid;
-                    Console.WriteLine(position.GetDescription());
-                }
-
+                position = possibleInput.Find(x => x.GetDescription().Equals(userInput));;
             }
 
+            return position;
         }
         
         private Player playerOne;
