@@ -10,8 +10,8 @@ namespace TicSharpToe
             this.playerOne = p1;
             this.playerTwo = p2;
             Console.WriteLine("Game initialized");
-            Console.WriteLine("Player 1 symbol : " + this.playerOne.Symbol.ToString());
-            Console.WriteLine("Player 2 symbol : " + this.playerTwo.Symbol.ToString());
+            Console.WriteLine("Player 1 symbol : " + this.playerOne.Symbol.GetDescription());
+            Console.WriteLine("Player 2 symbol : " + this.playerTwo.Symbol.GetDescription());
             board = new Dictionary<Position, Symbol>();
             board[Position.NORTHWEST] = Symbol.None;
             board[Position.NORTH] = Symbol.None;
@@ -34,17 +34,17 @@ namespace TicSharpToe
 
         private string BoardToString()
         {
-            return "| "  + board[Position.NORTHWEST].ToString() +
-                            " | " + board[Position.NORTH].ToString() +
-                            " | " + board[Position.NORTHEST].ToString() +
+            return "| "  + board[Position.NORTHWEST].GetDescription() +
+                            " | " + board[Position.NORTH].GetDescription() +
+                            " | " + board[Position.NORTHEST].GetDescription() +
                             " |\n" +
-                            "| " + board[Position.WEST].ToString() +
-                            " | " + board[Position.CENTER].ToString() +
-                            " | " + board[Position.EST].ToString() +
+                            "| " + board[Position.WEST].GetDescription() +
+                            " | " + board[Position.CENTER].GetDescription() +
+                            " | " + board[Position.EST].GetDescription() +
                             " |\n" +
-                            "| " + board[Position.SOUTHWEST].ToString() +
-                            " | " + board[Position.SOUTH].ToString() +
-                            " | " + board[Position.SOUTHEST].ToString() +
+                            "| " + board[Position.SOUTHWEST].GetDescription() +
+                            " | " + board[Position.SOUTH].GetDescription() +
+                            " | " + board[Position.SOUTHEST].GetDescription() +
                             " |";
         }
         
