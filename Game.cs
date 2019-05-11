@@ -48,9 +48,23 @@ namespace TicSharpToe
                 Console.WriteLine(this.BoardToString());
                 this.newTurn(currentPlayer);
 
-                StatusCode temp = playerTurn;
-                playerTurn = nextPlayerTurn;
-                nextPlayerTurn = temp;
+                gameStatus = this.checkBoardStatus();
+                if (gameStatus == StatusCode.GameNotFinished)
+                {
+                    StatusCode temp = playerTurn;
+                    playerTurn = nextPlayerTurn;
+                    nextPlayerTurn = temp;
+                }
+            }
+
+            if (gameStatus == StatusCode.GameDraw)
+            {
+                Console.WriteLine("Draw");
+            }
+
+            if (gameStatus == StatusCode.GameVictory)
+            {
+                Console.WriteLine(playerTurn.GetDescription() + " has won.");
             }
             
             Console.WriteLine("Ending game");
@@ -103,7 +117,6 @@ namespace TicSharpToe
             return possibleValues;
         }
 
-        
         private Position getUserInput()
         {
             string userInput;
@@ -121,6 +134,40 @@ namespace TicSharpToe
             }
 
             return position;
+        }
+
+        private StatusCode checkBoardStatus()
+        {
+            Boolean victory = false;
+
+            if (
+                (this.board[Position.NORTHWEST] != Symbol.None &&  this.board[Position.NORTHWEST] == this.board[Position.NORTH] &&
+                 this.board[Position.NORTHWEST] == this.board[Position.NORTHEST])
+                || (this.board[Position.WEST] != Symbol.None && this.board[Position.WEST] == this.board[Position.CENTER] &&
+                    this.board[Position.WEST] == this.board[Position.EST])
+                || (this.board[Position.SOUTHWEST] != Symbol.None && this.board[Position.SOUTHWEST] == this.board[Position.SOUTH] &&
+                    this.board[Position.SOUTHWEST] == this.board[Position.SOUTHEST])
+                || (this.board[Position.NORTHWEST] != Symbol.None && this.board[Position.NORTHWEST] == this.board[Position.WEST] &&
+                    this.board[Position.NORTHWEST] == this.board[Position.SOUTHWEST])
+                || (this.board[Position.NORTH] != Symbol.None && this.board[Position.NORTH] == this.board[Position.CENTER] &&
+                    this.board[Position.NORTH] == this.board[Position.SOUTH])
+                || (this.board[Position.NORTHEST] != Symbol.None && this.board[Position.NORTHEST] == this.board[Position.EST] &&
+                    this.board[Position.NORTHEST] == this.board[Position.SOUTHEST])
+                || (this.board[Position.NORTHWEST] != Symbol.None && this.board[Position.NORTHWEST] == this.board[Position.CENTER] &&
+                    this.board[Position.NORTHWEST] == this.board[Position.SOUTHEST])
+                || (this.board[Position.NORTHEST] != Symbol.None && this.board[Position.NORTHEST] == this.board[Position.CENTER] &&
+                    this.board[Position.NORTHEST] == this.board[Position.SOUTHWEST])
+            )
+            {
+                return StatusCode.GameVictory;
+            }
+
+            if (this.getPossibleInput().Count == 0)
+            {
+                return StatusCode.GameDraw;
+            }
+
+            return StatusCode.GameNotFinished;
         }
         
         private Player playerOne;
